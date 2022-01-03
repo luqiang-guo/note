@@ -103,7 +103,7 @@ void Append( concurrent_vector<char>& vector, const char* string ) {
 
 parallel for 接口分
 
-tbb建议一次迭代中执行10k到100k条指令，（pytorch粒度值设置的是32768）
+TBB建议一次迭代中执行10k到100k条指令，（pytorch粒度值设置的是32768）
 
 第三个参数指定切分的方式，auto_partitioner，static_partitioner，affinity_partitioner
 
@@ -118,6 +118,8 @@ void parallel_for( const Range& range, const Body& body, const simple_partitione
 void parallel_for(Index first, Index last, Index step, const Function& f)
 ...
 ```
+
+上述接口体现了TBB 提供了多种的并行策略。
 
 ```c++
 int main()
@@ -151,46 +153,77 @@ join方法。body的分割构造函数拷贝运行循环体需要的只读数据
 
 的标志元素。join方法会组合并归操作中各任务的结果。 
 
-```
-int main() {
-  std::vector<int> vec;
-  for (int i = 0; i < 100; i++)
-    vec.push_back(i);
-
-  int result = tbb::parallel_reduce(
-      tbb::blocked_range<std::vector<int>::iterator>(vec.begin(), vec.end()), 0,
-      [](const tbb::blocked_range<std::vector<int>::iterator> &r,
-         int init) -> int {
-        for (auto a = r.begin(); a != r.end(); a++)
-          init += *a;
-        return init;
-      },
-      [](int x, int y) -> int { return x + y; });
-
-  std::cout << "result:" << result << std::endl;
-  return 0;
+```c++
+//naive  reduce
+float SerialSumFoo( float a[], size_t n ) {
+    float sum = 0;
+    for( size_t i=0; i!=n; ++i )
+        sum += Foo(a[i]);
+    return sum;
 }
+
+//parallel
+class SumFoo {
+    float* my_a;
+public:
+    float my_sum;
+    void operator()( const blocked_range<size_t>& r ) {
+        float *a = my_a;
+        float sum = my_sum;
+        size_t end = r.end();
+        for( size_t i=r.begin(); i!=end; ++i )
+            sum += Foo(a[i]);
+        my_sum = sum;
+    }
+
+    SumFoo( SumFoo& x, split ) : my_a(x.my_a), my_sum(0) {}
+
+    void join( const SumFoo& y ) {my_sum+=y.my_sum;}
+
+    SumFoo(float a[] ) :
+        my_a(a), my_sum(0)
+    {}
+};
+
+float ParallelSumFoo( const float a[], size_t n ) {
+    SumFoo sf(a);
+    parallel_reduce( blocked_range<size_t>(0,n), sf );
+    return sf.my_sum;
+}
+
 ```
 
 
 
-###  parallel_scan
+## 设置信息
 
-### parallel_do
+Oneflow采用MultiClient模式，需要关心每个rank的计算核心数。
+
+### 设置计算核心数
+
+```c++
+    // 设置线程数
+    tbb::global_control global_thread_limit(tbb::global_control::max_allowed_parallelism, 4);
+
+    // 获取线程数
+    size_t num = tbb::global_control::active_value(
+      tbb::global_control::max_allowed_parallelism);
+```
+
+### 设置栈大小
+
+```c++
+    //设置栈大小
+    tbb::global_control s0(tbb::global_control::thread_stack_size, 1*MB);
+    {
+        tbb::global_control s1(tbb::global_control::thread_stack_size, 8*MB);
+
+        printf("thread_stack_size = %ld \n", tbb::global_control::active_value(tbb::global_control::thread_stack_size));
+    }
+    printf("thread_stack_size = %ld \n", tbb::global_control::active_value(tbb::global_control::thread_stack_size));
+```
 
 
-
-
-
-
-
-## 临时
-
-为了提高速度 至少要保证粒度有10w个clk
-
-手动给出粒度或者自动粒度
-
-![img](https://img-blog.csdn.net/20150526161953879)
 
 
 
