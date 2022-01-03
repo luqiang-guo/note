@@ -162,35 +162,26 @@ float SerialSumFoo( float a[], size_t n ) {
     return sum;
 }
 
-//parallel
-class SumFoo {
-    float* my_a;
-public:
-    float my_sum;
-    void operator()( const blocked_range<size_t>& r ) {
-        float *a = my_a;
-        float sum = my_sum;
-        size_t end = r.end();
-        for( size_t i=r.begin(); i!=end; ++i )
-            sum += Foo(a[i]);
-        my_sum = sum;
-    }
+//parallel reduce
+int main() {
+  std::vector<int> vec;
+  for (int i = 0; i < 100; i++)
+    vec.push_back(i);
 
-    SumFoo( SumFoo& x, split ) : my_a(x.my_a), my_sum(0) {}
+  int result = tbb::parallel_reduce(
+      tbb::blocked_range<std::vector<int>::iterator>(vec.begin(), vec.end()), 0,
+      [](const tbb::blocked_range<std::vector<int>::iterator> &r,
+         int init) -> int {
+        for (auto a = r.begin(); a != r.end(); a++)
+          init += *a;
+        return init;
+      },
+      [](int x, int y) -> int { return x + y; });
 
-    void join( const SumFoo& y ) {my_sum+=y.my_sum;}
-
-    SumFoo(float a[] ) :
-        my_a(a), my_sum(0)
-    {}
-};
-
-float ParallelSumFoo( const float a[], size_t n ) {
-    SumFoo sf(a);
-    parallel_reduce( blocked_range<size_t>(0,n), sf );
-    return sf.my_sum;
+  std::cout << "result:" << result << std::endl;
+  return 0;
 }
-
+ 
 ```
 
 
