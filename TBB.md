@@ -1,7 +1,5 @@
 # TBB
 
-
-
 ## 任务调度器
 
 任务调度器用来解决本地裸线程池(libgomp runtime)并行编程中常见的一些性问题。
@@ -16,7 +14,7 @@
 
   非实时操作系统（linux）采用的是公平调度思想的调度器，采用轮转的方式来分配时间片，它会使程序的性能变得更糟。
 
-  TBB调度器采用非公平的方式，通过获取更多的信息动态的实现负载均衡（任务窃取的方式），从而提高执行效率。
+  TBB调度器采用非公平的方式，通过获取更多的信息，动态的实现负载均衡（任务窃取的方式），从而提高执行效率。
 
 - 负载不均衡
 
@@ -97,6 +95,36 @@ void Append( concurrent_vector<char>& vector, const char* string ) {
 
 
 
+## 设置信息
+
+Oneflow采用MultiClient模式，需要关心每个rank的计算核心数。
+
+### 设置计算核心数
+
+```c++
+    // 设置线程数
+    tbb::global_control global_thread_limit(tbb::global_control::max_allowed_parallelism, 4);
+
+    // 获取线程数
+    size_t num = tbb::global_control::active_value(
+      tbb::global_control::max_allowed_parallelism);
+```
+
+### 设置栈大小
+
+```c++
+    //设置栈大小
+    tbb::global_control s0(tbb::global_control::thread_stack_size, 1*MB);
+    {
+        tbb::global_control s1(tbb::global_control::thread_stack_size, 8*MB);
+
+        printf("thread_stack_size = %ld \n", tbb::global_control::active_value(tbb::global_control::thread_stack_size));
+    }
+    printf("thread_stack_size = %ld \n", tbb::global_control::active_value(tbb::global_control::thread_stack_size));
+```
+
+
+
 ## 使用
 
 ### parallel_for
@@ -119,7 +147,14 @@ void parallel_for(Index first, Index last, Index step, const Function& f)
 ...
 ```
 
-上述接口体现了TBB 提供了多种的并行策略。
+TBB 会根据grain size 设置值，做内部微调。
+
+| **Partitioner**              | Description                                                  | **When Used with** `blocked_range(i,j,g)`           |
+| ---------------------------- | ------------------------------------------------------------ | --------------------------------------------------- |
+| simple_partitioner           | Chunksize bounded by grain size.                             | g/2 ≤ chunksize ≤ g                                 |
+| `auto_partitioner` (default) | Automatic chunk size.                                        | g/2 ≤ chunksize                                     |
+| affinity_partitioner         | Automatic chunk size, cache affinity and uniform distribution of iterations. | g/2 ≤ chunksize                                     |
+| static_partitioner           | Deterministic chunk size, cache affinity and uniform distribution of iterations without load balancing. | max(g/3, problem_size/num_of_resources) ≤ chunksize |
 
 ```c++
 int main()
@@ -183,40 +218,6 @@ int main() {
 }
  
 ```
-
-
-
-## 设置信息
-
-Oneflow采用MultiClient模式，需要关心每个rank的计算核心数。
-
-### 设置计算核心数
-
-```c++
-    // 设置线程数
-    tbb::global_control global_thread_limit(tbb::global_control::max_allowed_parallelism, 4);
-
-    // 获取线程数
-    size_t num = tbb::global_control::active_value(
-      tbb::global_control::max_allowed_parallelism);
-```
-
-### 设置栈大小
-
-```c++
-    //设置栈大小
-    tbb::global_control s0(tbb::global_control::thread_stack_size, 1*MB);
-    {
-        tbb::global_control s1(tbb::global_control::thread_stack_size, 8*MB);
-
-        printf("thread_stack_size = %ld \n", tbb::global_control::active_value(tbb::global_control::thread_stack_size));
-    }
-    printf("thread_stack_size = %ld \n", tbb::global_control::active_value(tbb::global_control::thread_stack_size));
-```
-
-
-
-
 
 
 
