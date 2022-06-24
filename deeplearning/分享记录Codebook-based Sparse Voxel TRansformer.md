@@ -24,7 +24,7 @@ Codebook-based Sparse Voxel TRansformer with Geometric Guidance
 
 ### Self Attention 在图像上的应用
 
-简单的理解为带有加权系nn网络，[详细链接](https://github.com/luqiang-guo/DeepLearningNotes/blob/main/self-attention.md)
+简单的理解为带有加权系nn网络，[详细链接](https://github.com/luqiang-guo/note/blob/master/deeplearning/self-attention.md)
 
 ![image-20220623223638816](C:\Users\mu\AppData\Roaming\Typora\typora-user-images\image-20220623223704944.png)
 
