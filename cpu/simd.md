@@ -19,16 +19,15 @@
 #### 编译选项
 - -mfpu=neon
 
-#### 寄存器，指令类型
+#### 寄存器，Intrinsics  指令格式
 
 ##### 寄存器
 
 64bit 和128bit两种类型寄存器， Dn 表示64bit，Qn表示128bit。 在`armv8` 下 `Q0`可以由`D0,D1`组合。
     ![image-20220814211333216](D:\note\cpu\image-20220814211333216.png)
 
-##### NEON Intrinsics 类型格式
 
-- **数据类型**
+##### 数据类型
   - **非数组向量格式**
 
     ```c
@@ -46,8 +45,8 @@
         uint8x8_t val[3];
       } uint8x8x3_t;
       ```
-  
-- **函数格式**
+
+##### 函数格式
 
   v<**1** 模型><**2** 指令名><**3** sharp>[**4** 后缀]_<**5** 数据类型>
 
@@ -138,9 +137,15 @@
 
 - **5** <数据类型> 数据类型：s8，s16，s32，s64，u8，u16，u32，u64，f16，f32，f64
 
-#### Load Store
+#### 访存操作
 
-- 
+​	基本操作有`pfrm`，`ld1`，`st1`，`pld`，`vld`
+
+- **1** `pfrm`
+- **2** `ld1`
+- **3** `st1`
+- **4** `pld`
+- **5** `vld`
 
 #### Instruction
 
@@ -151,7 +156,18 @@
 - 1 https://www.uio.no/studier/emner/matnat/ifi/INF5063/h17/timeplan/armv8-neon.pdf
 - 2 https://icode.best/i/03465444677461
 - 3 https://blog.csdn.net/liyunlong19870123/article/details/121810578
-- 
+- 4 [neon指令速查](https://blog.csdn.net/billbliss/article/details/78924636)
+- 5 [Coding for NEON - Part 1: Load and Stores](https://community.arm.com/processors/b/blog/posts/coding-for-neon---part-1-load-and-stores)
+- 6 [Coding for NEON - Part 2: Dealing With Leftovers](https://community.arm.com/processors/b/blog/posts/coding-for-neon---part-2-dealing-with-leftovers)
+- 7 [Coding for NEON - Part 3: Matrix Multiplication](https://community.arm.com/processors/b/blog/posts/coding-for-neon---part-3-matrix-multiplication)
+- 8 [Coding for NEON - Part 4: Shifting Left and Right](https://community.arm.com/processors/b/blog/posts/coding-for-neon---part-4-shifting-left-and-right)
+- 9 [Coding for NEON - Part 5: Rearranging Vectors](https://community.arm.com/processors/b/blog/posts/coding-for-neon---part-5-rearranging-vectors)
+- 10 [Neon 指令集 ARMv7/v8 对比](https://blog.csdn.net/zsc09_leaf/article/details/45825015)
+- 11 [Neon Intrinsics各函数介绍](https://blog.csdn.net/fengbingchun/article/details/38085781)
+- 12 [ARMv7 NEON内在函数和数据类型](https://blog.csdn.net/waterhawk/article/details/83932098)
+- 13  [常用的汇编指令](https://jzwdsb.github.io/2018/07/neon_frequently_use/)
+- 14 [NEON 指令介绍](https://zhuanlan.zhihu.com/p/441686632)
+- https://zhuanlan.zhihu.com/p/479398400
 
 
 
