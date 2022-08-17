@@ -213,3 +213,18 @@ NEON Demo
 
 
 
+## 临时记录
+
+
+
+### 倒数引起的浮点异常
+
+CPACR_EL1, CPTR_EL2, and CPTR_EL3 registers
+
+```
+Method vrecpeq_f32
+vrecpeq_f32(v128)
+Floating-point Reciprocal Estimate. This instruction finds an approximate reciprocal estimate for each vector element in the source SIMD&FP register, places the result in a vector, and writes the vector to the destination SIMD&FP register.This instruction can generate a floating-point exception. Depending on the settings in FPCR, the exception results in either a flag being set in FPSR or a synchronous exception being generated. For more information, see Floating-point exception traps.Depending on the settings in the CPACR_EL1, CPTR_EL2, and CPTR_EL3 registers, and the current Security state and Exception level, an attempt to execute the instruction might be trapped.
+Equivalent instruction: FRECPE Vd.4S,Vn.4S
+```
+
