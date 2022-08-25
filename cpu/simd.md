@@ -228,3 +228,30 @@ Floating-point Reciprocal Estimate. This instruction finds an approximate recipr
 Equivalent instruction: FRECPE Vd.4S,Vn.4S
 ```
 
+- 数据转换
+
+  ```
+  vcvtq_f32_s32()
+  vreinterpretq_u32_f32()
+  vreinterpretq_f32_u32()
+  ```
+
+  
+
+- fause mul add
+
+  主要差别在于[舍入](https://en.wikipedia.org/wiki/Rounding)次数， FMA 只有一次舍入， MLA有两次舍入。
+
+  - armv7 vfpv4 fma快一点点点， vfpv3 不支持 fma。
+  - arm64 上两个一样
+
+  ```
+  vfmaq_f32
+  vfmaq_n_f32
+  vmlaq
+  ```
+
+  [arm论坛回答](https://community.arm.com/support-forums/f/infrastructure-solutions-forum/48947/difference-between-vfma-and-vmla-in-neon)
+  [wiki 解释](https://en.wikipedia.org/wiki/Multiply%E2%80%93accumulate_operation)
+
+- 

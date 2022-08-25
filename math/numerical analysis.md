@@ -20,6 +20,19 @@
 
 
 
+
+
+## tanh
+
+- [eigen](http://docs.ros.org/en/melodic/api/co_scan/html/MathFunctionsImpl_8h_source.html)
+
+- [连分数](https://math.stackexchange.com/questions/107292/rapid-approximation-of-tanhx)
+
+- 实际计算采用的数值方法
+
+  ![{\frac  {a_{0}}{1}},\qquad {\frac  {a_{1}a_{0}+1}{a_{1}}},\qquad {\frac  {a_{2}(a_{1}a_{0}+1)+a_{0}}{a_{2}a_{1}+1}},\qquad {\frac  {a_{3}[a_{2}(a_{1}a_{0}+1)+a_{0}]+(a_{1}a_{0}+1)}{a_{3}(a_{2}a_{1}+1)+a_{1}}}](https://wikimedia.org/api/rest_v1/media/math/render/svg/8eb5374116544ecd01213276fd215d259c86989f)
+
+
 ## 数值判断
 
 - [浮点数对比](https://bot-man-jl.github.io/articles/?post=2020/Comparing-Floating-Point-Numbers)
