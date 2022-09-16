@@ -232,6 +232,7 @@ Equivalent instruction: FRECPE Vd.4S,Vn.4S
 
   ```
   vcvtq_f32_s32()
+  vcvtn_s32_f32()  // 四舍五入到最接近的欧数值
   vreinterpretq_u32_f32()
   vreinterpretq_f32_u32()
   ```
