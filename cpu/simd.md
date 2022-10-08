@@ -213,3 +213,47 @@ NEON Demo
 
 
 
+## 临时记录
+
+
+
+### 倒数引起的浮点异常
+
+CPACR_EL1, CPTR_EL2, and CPTR_EL3 registers
+
+```
+Method vrecpeq_f32
+vrecpeq_f32(v128)
+Floating-point Reciprocal Estimate. This instruction finds an approximate reciprocal estimate for each vector element in the source SIMD&FP register, places the result in a vector, and writes the vector to the destination SIMD&FP register.This instruction can generate a floating-point exception. Depending on the settings in FPCR, the exception results in either a flag being set in FPSR or a synchronous exception being generated. For more information, see Floating-point exception traps.Depending on the settings in the CPACR_EL1, CPTR_EL2, and CPTR_EL3 registers, and the current Security state and Exception level, an attempt to execute the instruction might be trapped.
+Equivalent instruction: FRECPE Vd.4S,Vn.4S
+```
+
+- 数据转换
+
+  ```
+  vcvtq_f32_s32()
+  vcvta_s32_f32()  // 四舍五入到最近接的数值
+  vcvtn_s32_f32()  // 四舍五入到最接近的偶数值
+  vreinterpretq_u32_f32()
+  vreinterpretq_f32_u32()
+  ```
+
+  
+
+- fause mul add
+
+  主要差别在于[舍入](https://en.wikipedia.org/wiki/Rounding)次数， FMA 只有一次舍入， MLA有两次舍入。
+
+  - armv7 vfpv4 fma快一点点点， vfpv3 不支持 fma。
+  - arm64 上两个一样
+
+  ```
+  vfmaq_f32
+  vfmaq_n_f32
+  vmlaq
+  ```
+
+  [arm论坛回答](https://community.arm.com/support-forums/f/infrastructure-solutions-forum/48947/difference-between-vfma-and-vmla-in-neon)
+  [wiki 解释](https://en.wikipedia.org/wiki/Multiply%E2%80%93accumulate_operation)
+
+- 
