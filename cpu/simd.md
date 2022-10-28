@@ -176,8 +176,24 @@ NEON Demo
 
 
   - **4** 后缀如果没有，表示64位并行；如果后缀是q，表示128位并行。
-
 - **5** <数据类型> 数据类型：s8，s16，s32，s64，u8，u16，u32，u64，f16，f32，f64
+
+### 数据转换
+
+- **浮点转定点舍入**, IEEE754规定了很多种舍入规则, 如: 四舍五入到最近值, 四舍五入到最近偶数值,等.  [舍入规则](https://en.wikipedia.org/wiki/Rounding)
+
+  ![image-20220916110341678](simd.assets/image-20220916110341678.png)
+
+  ```c
+  vcvta_s32_f32()  // 四舍五入到最近接的数值
+  vcvtn_s32_f32()  // 四舍五入到最接近的偶数
+  vcvtm_u32_f32()  // 向负无穷舍入
+  vcvtp_s32_f32()  // 向正无穷舍入
+  ```
+
+  
+
+- 
 
 ## 访存操作
 
@@ -210,6 +226,7 @@ NEON Demo
 - 13  [常用的汇编指令](https://jzwdsb.github.io/2018/07/neon_frequently_use/)
 - 14 [NEON 指令介绍](https://zhuanlan.zhihu.com/p/441686632)
 - https://zhuanlan.zhihu.com/p/479398400
+- [常用函数介绍](https://blog.csdn.net/Windgs_YF/article/details/112629405)
 
 
 
@@ -231,15 +248,12 @@ Equivalent instruction: FRECPE Vd.4S,Vn.4S
 - 数据转换
 
   ```
-  vcvtq_f32_s32()
-  vcvta_s32_f32()  // 四舍五入到最近接的数值
-  vcvtn_s32_f32()  // 四舍五入到最接近的偶数值
   vreinterpretq_u32_f32()
   vreinterpretq_f32_u32()
   ```
-
   
-
+  
+  
 - fause mul add
 
   主要差别在于[舍入](https://en.wikipedia.org/wiki/Rounding)次数， FMA 只有一次舍入， MLA有两次舍入。
