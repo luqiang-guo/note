@@ -2,12 +2,6 @@
 
 
 
-## ARM a55
-
-[Arm Cortex-A55 Software Optimization Guide](https://developer.arm.com/documentation/EPM128372/0300/?lang=en)
-
-
-
 ##  安装
 
 - 1 查看xavier 版本 `head -n 1 /etc/nv_tegra_release`
@@ -27,3 +21,57 @@
 
   <img src="perf.assets/image-20221027162313919.png" alt="image-20221027162313919" style="zoom:50%;" />
 
+## 使用
+
+
+
+
+
+### stat
+
+- event
+
+  ```
+  List of pre-defined events (to be used in -e):
+  
+    armv8_pmuv3/br_mis_pred/                           [Kernel PMU event]
+    armv8_pmuv3/br_mis_pred_retired/                   [Kernel PMU event]
+    armv8_pmuv3/br_pred/                               [Kernel PMU event]
+    armv8_pmuv3/br_retired/                            [Kernel PMU event]
+    armv8_pmuv3/cid_write_retired/                     [Kernel PMU event]
+    armv8_pmuv3/cpu_cycles/                            [Kernel PMU event]
+    armv8_pmuv3/exc_return/                            [Kernel PMU event]
+    armv8_pmuv3/exc_taken/                             [Kernel PMU event]
+    armv8_pmuv3/inst_retired/                          [Kernel PMU event]
+    armv8_pmuv3/l1d_cache/                             [Kernel PMU event]
+    armv8_pmuv3/l1d_cache_refill/                      [Kernel PMU event]
+    armv8_pmuv3/l1d_cache_wb/                          [Kernel PMU event]
+    armv8_pmuv3/l1d_tlb_refill/                        [Kernel PMU event]
+    armv8_pmuv3/l1i_cache/                             [Kernel PMU event]
+    armv8_pmuv3/l1i_cache_refill/                      [Kernel PMU event]
+    armv8_pmuv3/l1i_tlb_refill/                        [Kernel PMU event]
+    armv8_pmuv3/mem_access/                            [Kernel PMU event]
+    armv8_pmuv3/memory_error/                          [Kernel PMU event]
+    armv8_pmuv3/stall_backend/                         [Kernel PMU event]
+    armv8_pmuv3/stall_frontend/                        [Kernel PMU event]
+    armv8_pmuv3/sw_incr/                               [Kernel PMU event]
+    armv8_pmuv3/ttbr_write_retired/                    [Kernel PMU event]
+    carmel_pmu/bus_access/                             [Kernel PMU event]
+    carmel_pmu/bus_cycles/                             [Kernel PMU event]
+    carmel_pmu/l2d/                                    [Kernel PMU event]
+    carmel_pmu/l2d_cache_wb/                           [Kernel PMU event]
+    carmel_pmu/l2d_ld/                                 [Kernel PMU event]
+    carmel_pmu/l2d_prefetch_c0/                        [Kernel PMU event]
+    carmel_pmu/l2d_prefetch_c1/                        [Kernel PMU event]
+    carmel_pmu/l2d_refill/                             [Kernel PMU event]
+    carmel_pmu/l2d_refill_ld/                          [Kernel PMU event]
+    carmel_pmu/l2d_refill_st/                          [Kernel PMU event]
+    carmel_pmu/l2d_refill_victim/                      [Kernel PMU event]
+    carmel_pmu/l2d_st/                                 [Kernel PMU event]
+    carmel_pmu/l3d_cache/                              [Kernel PMU event]
+    carmel_pmu/l3d_cache_allocate/                     [Kernel PMU event]
+    carmel_pmu/l3d_cache_refill/                       [Kernel PMU event]
+    carmel_pmu/l3d_cache_wb/                           [Kernel PMU event]
+  ```
+
+  
