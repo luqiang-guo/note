@@ -72,3 +72,15 @@ constexpr int32_t ITUR_BT_601_SHIFT = 20;
 
 
 
+## LIBYUV
+
+
+
+```c++
+  uint32_t y32 = y * 0x0101;  
+  int32_t y1 = (uint32_t)(y32 * yg) >> 16;
+  int b16 = y1 + (u * ub) - bb;
+  int g16 = y1 + bg - (u * ug + v * vg);
+  int r16 = y1 + (v * vr) - br
+```
+
