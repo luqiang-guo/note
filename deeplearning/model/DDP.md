@@ -6,6 +6,10 @@
 
 
 
+- allreduce， ring allreduce 
+
+
+
 ## 参考资料
 
 
